@@ -3,6 +3,7 @@ using FoodApp.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Threading.Tasks;
 
 namespace FoodApp.Controllers
 {
@@ -23,9 +24,10 @@ namespace FoodApp.Controllers
         }
 
         // GET: ItemController/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            return View(ItemRepository.GetDetails(id));
+            var DetView = await ItemRepository.GetDetails(id);
+            return View(DetView);
         }
 
         // GET: ItemController/Create

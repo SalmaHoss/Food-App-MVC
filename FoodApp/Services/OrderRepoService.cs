@@ -14,13 +14,48 @@ namespace FoodApp.Services
         {
             context = _context;
         }
+        //public List<Order> GetOrderByUserIdAsync(string userId)
+        //{
+        //    var orders =  context.Orders.Include(n=>n.OrderItems).ThenInclude(n=>n.Item)
+        //        .Where(n=>n.UserId == userId).ToList();
+
+        //    return orders;
+        //        }
+
+        //public void StoreOrderAsync(List<ShoppingCartItem> items, string userId, string userEmailAddress)
+        //{
+
+        //    //1
+        //    //2
+        //    var order = new Order()
+        //    {
+        //        UserId = userId,
+        //        Email = userEmailAddress
+        //    };
+        //     context.Orders.Add(order);
+        //     context.SaveChanges();
+
+        //    foreach(var item in items)
+        //    {
+        //        var orderItem = new OrderItem()
+        //        {
+        //            Amount = item.Amount,
+        //            ItemId = item.Item.Id,
+        //            OrderId = order.Id,
+        //            Price = item.Item.Price
+        //        };
+        //         context.OrderItems.Add(orderItem);
+        //    }
+        //        context.SaveChanges();
+        //}
         public async Task<List<Order>> GetOrderByUserIdAsync(string userId)
         {
-            var orders = await context.Orders.Include(n=>n.OrderItems).ThenInclude(n=>n.Item)
-                .Where(n=>n.UserId == userId).ToListAsync();
+
+            var orders = await context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.Item)
+                .Where(n => n.UserId == userId).ToListAsync();
 
             return orders;
-                }
+        }
 
         public async Task StoreOrderAsync(List<ShoppingCartItem> items, string userId, string userEmailAddress)
         {
@@ -32,7 +67,7 @@ namespace FoodApp.Services
             await context.Orders.AddAsync(order);
             await context.SaveChangesAsync();
 
-            foreach(var item in items)
+            foreach (var item in items)
             {
                 var orderItem = new OrderItem()
                 {
@@ -43,7 +78,7 @@ namespace FoodApp.Services
                 };
                 await context.OrderItems.AddAsync(orderItem);
             }
-                await context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
     }
 }

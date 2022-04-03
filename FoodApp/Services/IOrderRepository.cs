@@ -7,6 +7,7 @@ namespace FoodApp.Services
 {
     public interface IOrderRepository
     {
+
         Task StoreOrderAsync(List<ShoppingCartItem> items, string userId, string userEmailAddress);
         Task<List<Order>> GetOrderByUserIdAsync(string userId);
     }

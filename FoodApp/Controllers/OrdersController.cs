@@ -18,6 +18,17 @@ namespace FoodApp.Controllers
             shoppingCart = _shoppingCart;
             orderRepository = _orderRepository;
         }
+        
+  
+        public async Task<IActionResult> Index()
+        {
+            string userId = "";//User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //string userRole = User.FindFirstValue(ClaimTypes.Role);
+
+            var orders = await orderRepository.GetOrderByUserIdAsync(userId);
+            return View(orders);
+        }
+
         public IActionResult ShoppingCart()
         {
            var items = shoppingCart.GetShoppingCartItems();
@@ -54,14 +65,14 @@ namespace FoodApp.Controllers
 
         }
 
-        public async Task<IActionResult> CompleteOrder()
+        public IActionResult CompleteOrder()
         {
             var items = shoppingCart.GetShoppingCartItems();
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             string userEmailAddress = User.FindFirstValue(ClaimTypes.Email);
 
-            await orderRepository.StoreOrderAsync(items, userId, userEmailAddress);
-            await shoppingCart.ClearShoppingCartAsync();
+             orderRepository.StoreOrderAsync(items, userId, userEmailAddress);
+             shoppingCart.ClearShoppingCartAsync();
 
             return View("OrderCompleted");
         }
