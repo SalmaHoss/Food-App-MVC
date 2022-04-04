@@ -22,7 +22,7 @@ namespace FoodApp.Controllers
   
         public async Task<IActionResult> Index()
         {
-            string userId = "";//User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userId = "ITI";//User.FindFirstValue(ClaimTypes.NameIdentifier);
             //string userRole = User.FindFirstValue(ClaimTypes.Role);
 
             var orders = await orderRepository.GetOrderByUserIdAsync(userId);

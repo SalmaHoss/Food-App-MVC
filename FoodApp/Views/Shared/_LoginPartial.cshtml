@@ -1,9 +1,12 @@
-﻿@using FoodApp.Areas.Identity.Data
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
+@*
+    @using FoodApp.Areas.Identity.Data
+
+*@
 
 
-@inject SignInManager<AppUser> SignInManager
-@inject UserManager<AppUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
  
  
@@ -11,10 +14,10 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a id="manage" class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+        <a id="manage" class="nav-link text-light" asp-area="" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
     </li>
     <li class="nav-item">
-        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+        <form id="logoutForm" class="form-inline"asp-area="" asp-controller="Account" asp-action="Logout">
             <button id="logout" type="submit" class="nav-link btn btn-link ">Logout</button>
         </form>
     </li>
@@ -22,10 +25,12 @@
 else
 {
     <li class="nav-item">
-        <a class="nav-link text-light" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        <a id="manage" class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link text-light" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+
+        <li class="nav-item">
+        <a id="manage" class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
     </li>
+
 }
 @*</ul>*@

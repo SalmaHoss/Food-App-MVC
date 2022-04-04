@@ -6,14 +6,17 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FoodApp.Data;
 
 namespace FoodApp
 {
@@ -32,21 +35,29 @@ namespace FoodApp
             services.AddDbContext<AppDbContext>(options=>
                      options.UseSqlServer(Configuration.GetConnectionString("myconn")));
 
-            //services.AddDbContext<UserDbContext>(options =>
-            //         options.UseSqlServer(Configuration.GetConnectionString("UserDbContextConnection")));
+            // services.AddDbContext<UserDbContext>(options =>
+            //          options.UseSqlServer(Configuration.GetConnectionString("UserDbContextConnection")));
 
             //services.AddDefaultIdentity<AppUser>(options =>
             //         options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<UserDbContext>();
 
-
+            services.AddRazorPages();
             services.AddScoped<IRestaurantRepsitory, RestaurantRepoService>();
             services.AddScoped<IItemRepository, ItemRepoService>();
             services.AddScoped<IOrderRepository, OrderRepoService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
 
+            //Auth and Autherization
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+            services.AddMemoryCache();
             services.AddSession();
 
+            services.AddAuthentication(o =>
+            {
+                o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
+            });
             services.AddControllersWithViews();
 
         }
@@ -70,6 +81,8 @@ namespace FoodApp
             app.UseRouting();
             app.UseSession();
 
+            //Auth. And Authorization
+
             app.UseAuthorization();
             app.UseAuthentication();
 
@@ -81,7 +94,7 @@ namespace FoodApp
 
                 endpoints.MapRazorPages();
             });
-            
+            AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
         }
     }
 }

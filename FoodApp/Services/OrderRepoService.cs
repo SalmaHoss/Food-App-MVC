@@ -73,7 +73,7 @@ namespace FoodApp.Services
                 {
                     Amount = item.Amount,
                     ItemId = item.Item.Id,
-                    OrderId = item.Id,
+                    OrderId = order.Id,
                     Price = item.Item.Price
                 };
                 await context.OrderItems.AddAsync(orderItem);
