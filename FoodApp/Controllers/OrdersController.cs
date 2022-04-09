@@ -22,10 +22,10 @@ namespace FoodApp.Controllers
   
         public async Task<IActionResult> Index()
         {
-            string userId = "ITI";//User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //string userRole = User.FindFirstValue(ClaimTypes.Role);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userRole = User.FindFirstValue(ClaimTypes.Role);
 
-            var orders = await orderRepository.GetOrderByUserIdAsync(userId);
+            var orders = await orderRepository.GetOrderByUserIdRoleAsync(userId,userRole);
             return View(orders);
         }
 
@@ -64,18 +64,29 @@ namespace FoodApp.Controllers
             return RedirectToAction(nameof(ShoppingCart));
 
         }
-
-        public IActionResult CompleteOrder()
+        public async Task<IActionResult> CompleteOrder()
         {
             var items = shoppingCart.GetShoppingCartItems();
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             string userEmailAddress = User.FindFirstValue(ClaimTypes.Email);
 
-             orderRepository.StoreOrderAsync(items, userId, userEmailAddress);
-             shoppingCart.ClearShoppingCartAsync();
+            await orderRepository.StoreOrderAsync(items, userId, userEmailAddress);
+            await shoppingCart.ClearShoppingCartAsync();
 
             return View("OrderCompleted");
         }
+
+        //public IActionResult CompleteOrder()
+        //{
+        //    var items = shoppingCart.GetShoppingCartItems();
+        //    string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    string userEmailAddress = User.FindFirstValue(ClaimTypes.Email);
+
+        //     orderRepository.StoreOrderAsync(items, userId, userEmailAddress);
+        //     shoppingCart.ClearShoppingCartAsync();
+
+        //    return View("OrderCompleted");
+        //}
 
     }
 }

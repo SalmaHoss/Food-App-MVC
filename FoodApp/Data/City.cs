@@ -1,4 +1,4 @@
 ﻿namespace FoodApp.Data
 {
-    public enum City { NaseCity }
+    public enum City { NaseCity, FifthSettlement, October, Fesial}
 }

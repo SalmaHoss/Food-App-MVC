@@ -48,13 +48,23 @@ namespace FoodApp.Services
         //    }
         //        context.SaveChanges();
         //}
-        public async Task<List<Order>> GetOrderByUserIdAsync(string userId)
+        public async Task<List<Order>> GetOrderByUserIdRoleAsync(string userId,string userRole)
         {
 
-            var orders = await context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.Item)
-                .Where(n => n.UserId == userId).ToListAsync();
+            //get User orders
+            //var orders = await context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.Item)
+            //    .Where(n => n.UserId == userId).ToListAsync();
+
+            //get all User orders
+            var orders = await context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.Item).Include(n => n.User).ToListAsync();
+
+            if (userRole != "Admin")
+            {
+                orders = orders.Where(n => n.UserId == userId).ToList();
+            }
 
             return orders;
+
         }
 
         public async Task StoreOrderAsync(List<ShoppingCartItem> items, string userId, string userEmailAddress)

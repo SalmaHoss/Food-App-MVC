@@ -79,10 +79,13 @@
 
     <script>
 
+        //HTML.raw: enable to call model inside javascript code
         let _total = @Html.Raw(Model.ShoppingCartTotal);
 
         paypal.Button.render({
             //Configure environment
+            //sandbox here as it is sample account for test payment
+            
             env: 'sandbox',
             client: {
                 sandbox: 'AYQt-WahDMnf9fZEAQ7Y42L8E1hJ96Haw8TchooeH7KwAmkq7CX5n3AP0ccP9Tr6y6V1EqI1fzzO3SNV'

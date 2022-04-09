@@ -11,9 +11,13 @@
 
 @*<h1>Index</h1>*@
 
-<p>
+ @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <p>
     <a asp-action="Create" class="btn btn-success">Create New</a>
 </p>
+}
+
 @*
 <table class="table">
     <thead>
@@ -71,14 +75,14 @@
     </table>*@
 
 
-    <div class="row">
+    <div class="row" style="">
     @foreach (var item in Model)
     {
-        <div class="col-md-4 col-xs-6 border-primary mb-3 ">
-            <div class="card mb-3 rounded" style="max-width: 540px; ">
+        <div class="col-lg-4 col-md-12 col-xs-6 border-primary mb-3 mt-5 ">
+            <div class="card mb-3 rounded w-100" style="max-width: 750px; ">
                 <div class="row g-0">
                     <div class="col-md-12">
-                        <div class="card-header text-white bg-secondary">
+                        <div class="card-header text-white bg-dark">
                             <p class="card-text">
                                 <h5 class="card-title">
                                     @item.Name
@@ -87,12 +91,11 @@
                             </p>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <img src="@item.Logo" width="100%" alt="@item.Name">
+                    <div class="col-lg-4 col-md-2 col-sm-2 mt-5">
+                        <img src="@item.Logo" width="75%" class="rounded-circle mt-5 ml-2 w-100 h-50" alt="@item.Name">
                     </div>
                     <div class="col-md-6">
                         <div class="card-body">
-                            <p class="card-text">@item.Description</p>
                             <p class="card-text"><b>Restaurant: </b>@item.Restaurant.Name</p>
                             <p class="card-text"><b>Category: </b>@item.category</p>
                             <p class="card-text"><b>Description: </b>@item.Description</p>
@@ -108,17 +111,30 @@
                                 <a class="btn btn-outline-primary float-right m-1" asp-action="Details" asp-route-id="@item.Id">
                                     <i class="bi bi-eye-fill"></i> Show Details
                                 </a>
-                                <a class="btn btn-outline-primary float-right m-1" asp-action="Delete" asp-route-id="@item.Id">
-                                    <i class="bi bi-eye-fill"></i> Delete
-                                </a>
-                                <a class="btn btn-outline-primary float-right m-1" asp-action="Edit" asp-route-id="@item.Id">
-                                    <i class="bi bi-eye-fill"></i> Edit
-                                </a>
-                                <a class="btn btn-success text-white" 
+
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                {
+                                    <a class="btn btn-outline-primary float-right m-1" asp-action="Delete" asp-route-id="@item.Id">
+                                        <i class="bi bi-eye-fill"></i> Delete
+                                    </a>
+                                    <a class="btn btn-outline-primary float-right m-1" asp-action="Edit" asp-route-id="@item.Id">
+                                        <i class="bi bi-eye-fill"></i> Edit
+                                    </a>
+                                }
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+                                {
+                                      <a class="btn btn-success text-white mt-1" 
                                    asp-controller="Orders" 
                                    asp-action="AddToShoppingCart" 
                                    asp-route-id="@item.Id">
                                 <i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))</a>
+                                }
+                                else{
+
+                                     <a class="btn btn-outline-success mt-1" asp-controller="Account" asp-action="Register">
+                                       Join To Order!</a>
+                                }
+                              
                             </p>
                         </div>
                     </div>

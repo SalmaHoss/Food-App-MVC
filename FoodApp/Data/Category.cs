@@ -1,6 +1,6 @@
 ﻿namespace FoodApp.Data
 {
    
-    public enum Category { Pizza, FridChecken, Pasta, Dessert }
+    public enum Category { Pizza, FriedChecken, Pasta, Dessert }
 
 }

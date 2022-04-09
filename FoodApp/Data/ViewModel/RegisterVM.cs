@@ -13,8 +13,12 @@ namespace FoodApp.Data.ViewModel
         public string EmailAddress { get; set; }
 
         [Required]
-        [MinLength(8,ErrorMessage ="Please Enter Stronger Password")]
+        [StringLength(10, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
+        [RegularExpression(@"^.*(?=.{8,})(?=.*[A-Z])(?=.*[@#$%^&+=]).*$",
+         ErrorMessage = "At least one speacial charchter and one Uppercase.")]
+
         [DataType(DataType.Password)]
+
         public string Password { get; set; }
 
         [Display(Name = "Confirm password")]

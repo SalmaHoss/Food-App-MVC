@@ -1,4 +1,4 @@
 ﻿namespace FoodApp.Data
 {
-    public enum Government { Cairo, Giza }
+    public enum Government { Cairo, Giza, Alexanderia }
 }

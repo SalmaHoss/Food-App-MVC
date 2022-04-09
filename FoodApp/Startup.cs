@@ -49,15 +49,51 @@ namespace FoodApp
             services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
 
             //Auth and Autherization
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+
+            /*
+             addIdentity 2 parms:
+            1-user class 
+            2-Role
+            then define where we want store all auth data
+             */
+            services.AddIdentity<ApplicationUser, IdentityRole>(o =>
+            {
+                    o.SignIn.RequireConfirmedEmail = true;
+                    o.Password.RequiredLength = 8;
+                    o.Password.RequireNonAlphanumeric = true;
+                    o.Password.RequireUppercase = false;
+                    o.Password.RequireLowercase = false;
+
+
+
+            })
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
+            //Takes action delegate as parameter
+     
+            
             services.AddMemoryCache();
             services.AddSession();
 
+            //add authentication and define using Cookie in options
             services.AddAuthentication(o =>
             {
                 o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-
             });
+
+            //add external logins
+            services.AddAuthentication()
+                .AddGoogle(o =>
+                {
+                    o.ClientId = "162887081599-8urbpvt42if135k780252g03sfh4bu2m.apps.googleusercontent.com";
+                    o.ClientSecret = "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";
+                })
+                .AddFacebook(o =>
+                {
+                    o.AppId = "1123745748470433";
+                    o.AppSecret = "404ba181b770660be894b1c84b01f5d8";
+                });
+
             services.AddControllersWithViews();
 
         }
@@ -81,8 +117,7 @@ namespace FoodApp
             app.UseRouting();
             app.UseSession();
 
-            //Auth. And Authorization
-
+            //Authentication And Authorization
             app.UseAuthorization();
             app.UseAuthentication();
 

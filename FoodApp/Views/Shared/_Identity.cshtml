@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using FoodApp.Models;
+
+@inject UserManager<ApplicationUser> UserManager;
+
+@if(!User.Identity.IsAuthenticated)
+{
+    <a class="btn btn-outline-success my-2 my-sm-0" asp-controller="Account" asp-action="Login">
+          <i class="bi bi-box-arrow-in-right"></i>Log In
+    </a>
+    <a class="btn btn-outline-success my-2 my-sm-0" asp-controller="Account" asp-action="Register">
+          <i class="bi bi-person-plus"></i>Register
+    </a>
+}
+else
+{
+    <li class="nav-item">
+        <a id="manage" class="nav-link text-light" asp-area="" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+    </li>
+    <form id="logoutForm" class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout">
+      <button id="logout" type="submit" class="nav-link  btn btn-danger">Logout</button>
+    </form>
+
+    @*<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>  *@  
+}
+
+                  
+                      

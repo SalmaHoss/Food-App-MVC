@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Authentication;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FoodApp.Data.ViewModel
 {
@@ -10,6 +12,12 @@ namespace FoodApp.Data.ViewModel
 
         [Required]
         [DataType(DataType.Password)]
-        public string Password { get; set; }    
+        public string Password { get; set; }
+        
+        public bool RememberMe { get; set; }
+        
+        public string ReturnUrl { get; set; }
+
+        public IList<AuthenticationScheme> ExternalLogins { get; set; }
     }
 }
