@@ -60,6 +60,12 @@ namespace FoodApp.Controllers
                 ModelState.AddModelError(string.Empty, "Email is not confirmed yet!");
                 return View(loginVM);
             }
+            if (user == null)
+            {
+                TempData["Error"] = "Wrong credentials. Please, try again!";
+                return View(loginVM);
+
+            }
 
             //var result = await _signInManager.PasswordSignInAsync(loginVM.EmailAddress,
             //                                loginVM.Password, loginVM.RememberMe, false);
