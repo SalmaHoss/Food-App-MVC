@@ -1,0 +1,24 @@
+﻿
+<div id="filter" class="col-lg-2">
+        <h3>Category</h3>
+    <form asp-controller="Restaurant" asp-action="Index">
+      <input type="checkbox" value="Pizza" name="category"><label class="lbl">Pizza</label><br>
+
+      <input type="checkbox" value="Fried Chicken" name="category"><label class="lbl">Fried Chicken</label><br>
+
+      <input type="checkbox" value="Pasta" name="category"><label class="lbl">Pasta</label><br>
+       
+      <input type="checkbox" value="Dessert" name="category"><label class="lbl"> Dessert</label><br>
+      <hr>
+
+      <h3>Place</h3>
+      <input type="checkbox" name="city" value="Giza">   <label class="lbl">Giza</label><br>
+
+      <input type="checkbox" name="city" value="Cairo">  <label class="lbl">Cairo</label><br>
+
+      <input type="checkbox" name="city" value="Minofia"><label class="lbl">Minofia</label><br>
+      
+      <input type="submit" value="Filter">
+  </form>
+
+</div>

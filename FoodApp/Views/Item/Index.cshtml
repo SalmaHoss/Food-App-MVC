@@ -74,10 +74,7 @@
                                    asp-action="AddToShoppingCart" 
                                    asp-route-id="@item.Id">
                                 <i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))</a>
-                                }
-                                else{
-
-                                     <a class="btn btn-outline-success mt-1" asp-controller="Account" asp-action="Register">
+                                 <a class="btn btn-outline-success mt-1" asp-controller="Account" asp-action="Register">
                                        Join To Order!</a>
                                 }
                               

@@ -2,8 +2,6 @@
 
 @{
     ViewData["Title"] = "Restaurants";
-   
-
    IEnumerable<Restaurant> rests = ViewData["rest"] as IEnumerable<Restaurant>;
 }
 @{
@@ -35,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">EmailAddress</label>
-                        <input asp-for="EmailAddress" class="form-control" />
+                        <input type="email"asp-for="EmailAddress" class="form-control" />
                         <span asp-validation-for="EmailAddress" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -73,28 +71,7 @@
 }
 <div class="container">
     <div class="row">
-
-    <div id="filter" class="col-lg-2">
-        <h3>Category</h3>
-
-      <input type="checkbox" value="Pizza"><label class="lbl">Pizza</label><br>
-
-      <input type="checkbox" value="Fried Chicken"><label class="lbl">Fried Chicken</label><br>
-
-      <input type="checkbox" value="Pasta"><label class="lbl">Pasta</label><br>
-
-      <input type="checkbox" value="Dessert"><label class="lbl"> Dessert</label><br>
-      <hr>
-
-      <h3>Place</h3>
-      <input type="checkbox" value="Pizza"><label class="lbl">Giza</label><br>
-
-      <input type="checkbox" value="Fried Chicken"><label class="lbl">Cairo</label><br>
-
-      <input type="checkbox" value="Pasta"><label class="lbl">Minofia</label><br>
-
-
-</div>
+    <partial name="_CheckBoxFilters" />
     <div  class="col-lg-10">
 
 <table class="table">
@@ -172,3 +149,11 @@
 </div>
 </div>
 </div>
+<script>
+    $(document).on("click", "#hi", function(){
+    if ($(this).is(':checked')) {
+        console.log("ffff");
+        $('form').submit();
+    }
+});
+</script>
