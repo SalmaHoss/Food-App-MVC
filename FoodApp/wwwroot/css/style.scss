@@ -7,7 +7,18 @@ $textCol: #1f1f1f;
 // import fonts -  font-family: 'Open Sans', sans-serif and  font-family: 'Dancing Script', cursive;
 
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap');
+//Resturant index
+#filter{
+    display:block;
+}
+input[checkbox]{
+    margin:2px;
+}
+.lbl{
+ margin-left:2px;
+}
 
+//
 @mixin main-font {
   font-family: "Open Sans", sans-serif;
 }

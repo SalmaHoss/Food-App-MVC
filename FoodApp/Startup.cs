@@ -59,12 +59,11 @@ namespace FoodApp
             services.AddIdentity<ApplicationUser, IdentityRole>(o =>
             {
                     o.SignIn.RequireConfirmedEmail = true;
+
                     o.Password.RequiredLength = 8;
                     o.Password.RequireNonAlphanumeric = true;
-                    o.Password.RequireUppercase = false;
+                    o.Password.RequireUppercase = true;
                     o.Password.RequireLowercase = false;
-
-
 
             })
             .AddEntityFrameworkStores<AppDbContext>()
@@ -125,7 +124,7 @@ namespace FoodApp
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Item}/{action=Index}/{id?}");
+                    pattern: "{controller=Restaurant}/{action=Index}/{id?}");
 
                 endpoints.MapRazorPages();
             });
