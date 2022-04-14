@@ -60,7 +60,7 @@ namespace FoodApp.Controllers
                 ModelState.AddModelError(string.Empty, "Email is not confirmed yet!");
                 return View(loginVM);
             }
-            if (user == null)
+            if(user == null)
             {
                 TempData["Error"] = "Wrong credentials. Please, try again!";
                 return View(loginVM);
@@ -186,36 +186,38 @@ namespace FoodApp.Controllers
         {
             if (!ModelState.IsValid) return View(registerVM);
 
-            var user = await _userManager.FindByEmailAsync(registerVM.EmailAddress);
-            
-            if (user != null)
-            {
-                TempData["Error"] = "This email address is already in use";
-                return View(registerVM);
-            }
+            //Check if email exist 
+             var user = await _userManager.FindByEmailAsync(registerVM.EmailAddress);
 
-            var newUser = new ApplicationUser()
-            {
-                FullName = registerVM.FullName,
-                Email = registerVM.EmailAddress,
-                UserName = registerVM.EmailAddress
-            };
-            var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
+             if (user != null)
+             {
+                 TempData["Error"] = "This email address is already in use";
+                 return View(registerVM);
+             }
 
-            if (newUserResponse.Succeeded)
-            {
-                var token = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                var confirmationLink = Url.Action("ConfirmEmail", "Account",
-                                        new { userId = newUser.Id, token = token }, Request.Scheme);
-                _logger.Log(LogLevel.Warning, confirmationLink);
+             var newUser = new ApplicationUser()
+             {
+                 FullName = registerVM.FullName,
+                 Email = registerVM.EmailAddress,
+                 UserName = registerVM.EmailAddress
+             };
 
-                await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+             var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
 
-                ViewBag.ErrorTitle = "Registration successful";
-                ViewBag.ErrorMessage = "Before you can login, please confirm your email, " +
-                    "by clicking on the confirmation link we have emailed you.";
-                return View("ConfirmErrorView");
-            }
+             if (newUserResponse.Succeeded)
+             {
+                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                 var confirmationLink = Url.Action("ConfirmEmail", "Account",
+                                         new { userId = newUser.Id, token = token }, Request.Scheme);
+                 _logger.Log(LogLevel.Warning, confirmationLink);
+
+                 await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+
+                 ViewBag.ErrorTitle = "Registration successful";
+                 ViewBag.ErrorMessage = "Before you can login, please confirm your email, " +
+                     "by clicking on the confirmation link we have emailed you.";
+                 return View("ConfirmErrorView");
+             }
 
             return View("RegisterCompleted");
         }

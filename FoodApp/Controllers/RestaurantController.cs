@@ -1,4 +1,5 @@
-﻿using FoodApp.Models;
+﻿using FoodApp.Data.ViewModel;
+using FoodApp.Models;
 using FoodApp.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,9 @@ namespace FoodApp.Controllers
         }
         public ActionResult Index()
         {
-            return View(RestaurantRepsitory.GetAll());
+            ViewData["rest"] = RestaurantRepsitory.GetAll();
+            ViewData["login"] = new LoginVM();
+            return View();
         }
 
         // GET: RestaurantController/Details/5
