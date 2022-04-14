@@ -1,8 +1,10 @@
-﻿using FoodApp.Data.ViewModel;
+﻿using FoodApp.Data;
+using FoodApp.Data.ViewModel;
 using FoodApp.Models;
 using FoodApp.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace FoodApp.Controllers
 {
@@ -16,6 +18,8 @@ namespace FoodApp.Controllers
         {
             RestaurantRepsitory = restaurantRepsitory;
         }
+       
+        [HttpGet]
         public ActionResult Index()
         {
             ViewData["rest"] = RestaurantRepsitory.GetAll();
@@ -24,7 +28,29 @@ namespace FoodApp.Controllers
         }
 
         // GET: RestaurantController/Details/5
-        
+        [HttpPost]
+        public ActionResult Index(string[] category,string[] city)
+        {
+            //Modify
+
+            List<Restaurant> restCatCity = new List<Restaurant>();
+            foreach (var chk in category)
+            {
+               var restCat = RestaurantRepsitory.GetAll().FindAll(x => x.Description.ToString() == chk);
+                restCatCity.AddRange(restCat);
+            }
+            List<Restaurant> restCity = restCatCity;
+
+            foreach (var chk in city)
+            {
+                restCatCity = restCatCity.FindAll(x => x.government.ToString() == chk);
+
+            }
+            ViewData["rest"] = restCatCity;
+            ViewData["login"] = new LoginVM();
+            return View();
+        }
+
         public ActionResult Details(int id)
         {
             var error = RestaurantRepsitory.GetDetails(id);
