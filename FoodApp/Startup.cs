@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FoodApp.Data;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace FoodApp
 {
@@ -56,6 +57,7 @@ namespace FoodApp
             2-Role
             then define where we want store all auth data
              */
+            services.AddTransient<IEmailSender, SendMail>();
             services.AddIdentity<ApplicationUser, IdentityRole>(o =>
             {
                     o.SignIn.RequireConfirmedEmail = true;
