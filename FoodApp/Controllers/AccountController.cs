@@ -3,6 +3,7 @@ using FoodApp.Data.ViewModel;
 using FoodApp.Models;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -20,14 +21,16 @@ namespace FoodApp.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly AppDbContext _context;
         private readonly ILogger<AccountController> _logger;
+        private readonly IEmailSender _emailSender;
 
-
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, AppDbContext context, ILogger<AccountController> logger)
+        public AccountController(IEmailSender emailSender,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, AppDbContext context, ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
             _logger = logger;
+            _emailSender = emailSender;
+
         }
 
 
@@ -340,6 +343,15 @@ namespace FoodApp.Controllers
         {
             return View();
         }
-    
+
+        [HttpPost]
+        public async Task<IActionResult> ContactusAsync(ContactUsVM contactUsVM)
+        { 
+            var msg = contactUsVM.FullName + " " + contactUsVM.Notes;
+            await _emailSender.SendEmailAsync(contactUsVM.EmailAddress, "Contact mail", msg);
+            ViewBag.ConfirmMsg = "Message recieved";
+
+            return View();
+        }
     }
 }
